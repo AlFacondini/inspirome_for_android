@@ -8,7 +8,12 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final imageUrl = ref.watch(inspiringImageUrlProvider);
+    debugPrint("Building $this.");
+
+    const endOfListSnackBar = SnackBar(
+      content: Text("Reached the bottom of the list."),
+      duration: Duration(seconds: 5),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -19,31 +24,52 @@ class HomePage extends ConsumerWidget {
         onHorizontalDragEnd: (details) {
           // If swiping right to left
           if (details.primaryVelocity! < 0) {
-            ref.invalidate(inspiringImageUrlProvider);
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            final imageIndex = ref.read(inspiringImageListIndexProvider);
+            ref.read(inspiringImageListIndexProvider.notifier).state =
+                (imageIndex + 1);
           } else {
             // If swiping left to right
-            if (details.primaryVelocity! > 0) {}
+            if (details.primaryVelocity! > 0) {
+              final imageIndex = ref.read(inspiringImageListIndexProvider);
+              if (imageIndex > 0) {
+                ref.read(inspiringImageListIndexProvider.notifier).state =
+                    (imageIndex - 1);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(endOfListSnackBar);
+              }
+            }
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(8),
+        child: const Padding(
+          padding: EdgeInsets.all(8),
           child: Center(
-            child: imageUrl.when(
-              data: (url) {
-                return InspiringImageViewer(url);
-              },
-              error: (err, _) {
-                return const Icon(Icons.error);
-              },
-              loading: () {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            ),
+            child: InspiringImageViewer(),
           ),
         ),
       ),
     );
   }
 }
+
+/*
+final selectedProductIdProvider = StateProvider<String?>((ref) => null);
+final productsProvider = StateNotifierProvider<ProductsNotifier, List<Product>>((ref) => ProductsNotifier());
+
+Widget build(BuildContext context, WidgetRef ref) {
+  final List<Product> products = ref.watch(productsProvider);
+  final selectedProductId = ref.watch(selectedProductIdProvider);
+
+  return ListView(
+    children: [
+      for (final product in products)
+        GestureDetector(
+          onTap: () => ref.read(selectedProductIdProvider.notifier).state = product.id,
+          child: ProductItem(
+            product: product,
+            isSelected: selectedProductId.state == product.id,
+          ),
+        ),
+    ],
+  );
+}*/
