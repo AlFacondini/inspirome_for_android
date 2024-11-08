@@ -16,4 +16,14 @@ class InspiringImageList extends StateNotifier<List<InspiringImage>> {
 
     state = [...state, newInspiringImage];
   }
+
+  void setFavourite(String guid) {
+    state = [
+      for (final inspiringImage in state)
+        if (inspiringImage.guid == guid)
+          inspiringImage.withFavourite(!inspiringImage.favourite)
+        else
+          inspiringImage
+    ];
+  }
 }

@@ -67,3 +67,44 @@ final inspiringImageListElementProvider = Provider.family<InspiringImage?, int>(
     }
   },
 );
+
+final inspiringFavouriteListIndexProvider = StateProvider<int>(
+  (ref) => 0,
+);
+
+final inspiringFavouriteListElementProvider =
+    Provider.family<InspiringImage?, int>(
+  (ref, index) {
+    debugPrint("Trying to access image #$index of the favourite list.");
+    if (index >=
+        ref
+            .watch(inspiringImageListProvider)
+            .where(
+              (element) => element.favourite == true,
+            )
+            .length) {
+      debugPrint("Index out of range.");
+      return null;
+    } else {
+      final image = ref
+          .watch(inspiringImageListProvider)
+          .where(
+            (element) => element.favourite == true,
+          )
+          .elementAt(index);
+      debugPrint("Image $image found.");
+      return image;
+    }
+  },
+);
+
+final currentInspiringImageFavouriteStatusProvider = Provider<bool>(
+  (ref) {
+    final listIndex = ref.watch(inspiringImageListIndexProvider);
+    final favourite = ref
+            .watch(inspiringFavouriteListElementProvider(listIndex))
+            ?.favourite ??
+        false;
+    return favourite;
+  },
+);
