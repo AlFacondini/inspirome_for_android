@@ -22,16 +22,15 @@ class HomePage extends ConsumerWidget {
       ),
       body: GestureDetector(
         onHorizontalDragEnd: (details) {
+          final imageIndex = ref.read(inspiringImageListIndexProvider);
           // If swiping right to left
           if (details.primaryVelocity! < 0) {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            final imageIndex = ref.read(inspiringImageListIndexProvider);
             ref.read(inspiringImageListIndexProvider.notifier).state =
                 (imageIndex + 1);
           } else {
             // If swiping left to right
             if (details.primaryVelocity! > 0) {
-              final imageIndex = ref.read(inspiringImageListIndexProvider);
               if (imageIndex > 0) {
                 ref.read(inspiringImageListIndexProvider.notifier).state =
                     (imageIndex - 1);
@@ -48,28 +47,15 @@ class HomePage extends ConsumerWidget {
           ),
         ),
       ),
+      floatingActionButton: _favouriteFloatingActionButton(),
     );
   }
 }
 
-/*
-final selectedProductIdProvider = StateProvider<String?>((ref) => null);
-final productsProvider = StateNotifierProvider<ProductsNotifier, List<Product>>((ref) => ProductsNotifier());
-
-Widget build(BuildContext context, WidgetRef ref) {
-  final List<Product> products = ref.watch(productsProvider);
-  final selectedProductId = ref.watch(selectedProductIdProvider);
-
-  return ListView(
-    children: [
-      for (final product in products)
-        GestureDetector(
-          onTap: () => ref.read(selectedProductIdProvider.notifier).state = product.id,
-          child: ProductItem(
-            product: product,
-            isSelected: selectedProductId.state == product.id,
-          ),
-        ),
-    ],
+FloatingActionButton _favouriteFloatingActionButton() {
+  return FloatingActionButton(
+    onPressed: () {},
+    tooltip: 'Favourite',
+    child: const Icon(Icons.favorite_outline),
   );
-}*/
+}
