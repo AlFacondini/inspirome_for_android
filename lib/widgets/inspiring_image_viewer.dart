@@ -15,19 +15,19 @@ class InspiringImageViewer extends ConsumerWidget {
     if (listIndex >= listLength) {
       return _buildNewInspiringImage(context, ref);
     } else {
-      final imageUrl =
-          ref.read(inspiringImageListElementProvider(listIndex))!.imageUrl;
-      return _buildExistingInspiringImage(context, ref, imageUrl);
+      final imageGuid =
+          ref.read(inspiringImageListElementProvider(listIndex))!.guid;
+      return _buildExistingInspiringImage(context, ref, imageGuid);
     }
   }
 }
 
 Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
-  ref.invalidate(inspiringImageUrlProvider);
-  final imageUrl = ref.watch(inspiringImageUrlProvider);
-  return imageUrl.when(
-    data: (url) {
-      return _buildExistingInspiringImage(context, ref, url);
+  ref.invalidate(newInspiringImageProvider);
+  final imageGuid = ref.read(newInspiringImageProvider);
+  return imageGuid.when(
+    data: (guid) {
+      return _buildExistingInspiringImage(context, ref, guid);
     },
     error: (err, _) {
       return const Icon(Icons.error);
@@ -41,8 +41,8 @@ Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
 }
 
 Widget _buildExistingInspiringImage(
-    BuildContext context, WidgetRef ref, String url) {
-  final imageBytes = ref.watch(inspiringImageProvider(url));
+    BuildContext context, WidgetRef ref, String guid) {
+  final imageBytes = ref.watch(inspiringImageProvider(guid));
 
   return imageBytes.when(
     data: (image) {

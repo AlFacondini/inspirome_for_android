@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class InspiringImage {
   final String guid;
   final String imageUrl;
@@ -10,7 +12,11 @@ class InspiringImage {
 
   @override
   String toString() {
-    return "$imageUrl - $dateGenerated - $favourite";
+    String guidBeginning = guid.substring(0, 8);
+    String urlEnd = Uri.parse(imageUrl).pathSegments.last;
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+    String formattedDate = dateFormat.format(dateGenerated);
+    return "$guidBeginning - $urlEnd - $formattedDate - $favourite";
   }
 
   InspiringImage withFavourite(bool newFavourite) {

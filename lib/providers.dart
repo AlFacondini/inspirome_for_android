@@ -6,7 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:inspirome_for_android/models/inspiring_image.dart';
 import 'package:inspirome_for_android/models/inspiring_image_list.dart';
 
-final inspiringImageUrlProvider = FutureProvider<String>(
+final inspiringImageListProvider =
+    StateNotifierProvider<InspiringImageList, List<InspiringImage>>(
+  (ref) => InspiringImageList([]),
+);
+
+final newInspiringImageProvider = FutureProvider<String>(
   (ref) async {
     debugPrint("Requesting image generation to API.");
     final response =
@@ -21,33 +26,38 @@ final inspiringImageUrlProvider = FutureProvider<String>(
 
     final imageUrl = response.body;
 
-    ref.read(inspiringImageListProvider.notifier).addImage(imageUrl);
+    final guid =
+        ref.read(inspiringImageListProvider.notifier).addNewImage(imageUrl);
 
-    return imageUrl;
+    return guid;
   },
 );
 
 final inspiringImageProvider = FutureProvider.family<Uint8List, String>(
-  (ref, url) async {
-    debugPrint("Accessing image at $url.");
-    final response = await http.get(Uri.parse(url));
+  (ref, guid) async {
+    final url = ref
+        .read(inspiringImageListProvider.notifier)
+        .getImageWithGuid(guid)
+        ?.imageUrl;
 
-    final statusCode = response.statusCode;
-    if (statusCode != 200) {
-      throw Exception("Image HTTP request failed with code $statusCode");
+    if (url == null) {
+      throw Exception("No image with guid $guid.");
     } else {
-      debugPrint("Image HTTP request OK.");
+      debugPrint("Accessing image at $url.");
+      final response = await http.get(Uri.parse(url));
+
+      final statusCode = response.statusCode;
+      if (statusCode != 200) {
+        throw Exception("Image HTTP request failed with code $statusCode");
+      } else {
+        debugPrint("Image HTTP request OK.");
+      }
+
+      final image = response.bodyBytes;
+
+      return image;
     }
-
-    final image = response.bodyBytes;
-
-    return image;
   },
-);
-
-final inspiringImageListProvider =
-    StateNotifierProvider<InspiringImageList, List<InspiringImage>>(
-  (ref) => InspiringImageList([]),
 );
 
 final inspiringImageListIndexProvider = StateProvider<int>(
