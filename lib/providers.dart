@@ -33,30 +33,23 @@ final newInspiringImageProvider = FutureProvider<String>(
   },
 );
 
-final inspiringImageProvider = FutureProvider.family<Uint8List, String>(
-  (ref, guid) async {
-    final url = ref
-        .read(inspiringImageListProvider.notifier)
-        .getImageWithGuid(guid)
-        ?.imageUrl;
+final inspiringImageProvider = FutureProvider.family<Uint8List, InspiringImage>(
+  (ref, imageObject) async {
+    final url = imageObject.imageUrl;
 
-    if (url == null) {
-      throw Exception("No image with guid $guid.");
+    debugPrint("Accessing image at $url.");
+    final response = await http.get(Uri.parse(url));
+
+    final statusCode = response.statusCode;
+    if (statusCode != 200) {
+      throw Exception("Image HTTP request failed with code $statusCode");
     } else {
-      debugPrint("Accessing image at $url.");
-      final response = await http.get(Uri.parse(url));
-
-      final statusCode = response.statusCode;
-      if (statusCode != 200) {
-        throw Exception("Image HTTP request failed with code $statusCode");
-      } else {
-        debugPrint("Image HTTP request OK.");
-      }
-
-      final image = response.bodyBytes;
-
-      return image;
+      debugPrint("Image HTTP request OK.");
     }
+
+    final image = response.bodyBytes;
+
+    return image;
   },
 );
 

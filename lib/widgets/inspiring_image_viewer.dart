@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inspirome_for_android/models/inspiring_image.dart';
 import 'package:inspirome_for_android/providers.dart';
 
 class InspiringImageViewer extends ConsumerWidget {
@@ -15,19 +16,21 @@ class InspiringImageViewer extends ConsumerWidget {
     if (listIndex >= listLength) {
       return _buildNewInspiringImage(context, ref);
     } else {
-      final imageGuid =
-          ref.read(inspiringImageListElementProvider(listIndex))!.guid;
-      return _buildExistingInspiringImage(context, ref, imageGuid);
+      final imageObject =
+          ref.read(inspiringImageListElementProvider(listIndex))!;
+      return _buildExistingInspiringImage(context, ref, imageObject);
     }
   }
 }
 
 Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
   ref.invalidate(newInspiringImageProvider);
-  final imageGuid = ref.read(newInspiringImageProvider);
-  return imageGuid.when(
-    data: (guid) {
-      return _buildExistingInspiringImage(context, ref, guid);
+  final imageObject = ref.read(newInspiringImageProvider);
+  return imageObject.when(
+    data: (_) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     },
     error: (err, _) {
       return const Icon(Icons.error);
@@ -41,8 +44,8 @@ Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
 }
 
 Widget _buildExistingInspiringImage(
-    BuildContext context, WidgetRef ref, String guid) {
-  final imageBytes = ref.watch(inspiringImageProvider(guid));
+    BuildContext context, WidgetRef ref, InspiringImage imageObject) {
+  final imageBytes = ref.watch(inspiringImageProvider(imageObject));
 
   return imageBytes.when(
     data: (image) {
