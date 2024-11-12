@@ -42,7 +42,7 @@ Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
 
 Widget _buildExistingInspiringImage(
     BuildContext context, WidgetRef ref, InspiringImage imageObject) {
-  final imageBytes = ref.watch(inspiringImageProvider(imageObject.imageUrl));
+  final imageBytes = ref.watch(inspiringImageProvider(imageObject));
 
   return imageBytes.when(
     data: (image) {
