@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspirome_for_android/providers.dart';
-import 'package:inspirome_for_android/widgets/changing_favourite_icon.dart';
+import 'package:inspirome_for_android/widgets/favourite_icons.dart';
 import 'package:inspirome_for_android/widgets/inspiring_image_viewer.dart';
 
 class HomePage extends ConsumerWidget {
@@ -48,33 +48,22 @@ class HomePage extends ConsumerWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final listIndex = ref.read(inspiringImageListIndexProvider);
-          final currentImage =
-              ref.read(inspiringImageListElementProvider(listIndex));
-          if (currentImage != null) {
-            debugPrint("Changing favourite status of $currentImage.");
-            ref
-                .read(inspiringImageListProvider.notifier)
-                .setFavourite(currentImage.guid);
-          }
-        },
-        tooltip: 'Favourite',
-        child: ChangingFavouriteIcon(),
-      ),
+      floatingActionButton: _favouriteFloatingActionButton(ref),
     );
   }
 }
-/*
-_onFavouriteFABPressed(WidgetRef ref) {
-  final listIndex = ref.read(inspiringImageListIndexProvider);
-  final currentImage = ref.read(inspiringImageListElementProvider(listIndex));
-  if (currentImage != null) {
-    debugPrint("Changing favourite status of $currentImage.");
-    ref
-        .read(inspiringImageListProvider.notifier)
-        .setFavourite(currentImage.guid);
-  }
+
+FloatingActionButton? _favouriteFloatingActionButton(WidgetRef ref) {
+  return FloatingActionButton(
+    onPressed: () {
+      final currentImage = ref.read(currentInspiringImageProvider);
+      if (currentImage != null) {
+        ref
+            .read(inspiringImageListProvider.notifier)
+            .setFavourite(currentImage.guid);
+      }
+    },
+    tooltip: 'Favourite',
+    child: const FavouriteIcons(),
+  );
 }
-*/

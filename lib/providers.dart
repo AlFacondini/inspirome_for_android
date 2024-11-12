@@ -6,7 +6,16 @@ import 'package:http/http.dart' as http;
 import 'package:inspirome_for_android/models/inspiring_image.dart';
 import 'package:inspirome_for_android/models/inspiring_image_list.dart';
 
-final inspiringImageUrlProvider = FutureProvider<String>(
+final inspiringImageListProvider =
+    StateNotifierProvider<InspiringImageList, List<InspiringImage>>(
+  (ref) => InspiringImageList([]),
+);
+
+final inspiringImageListLengthProvider = Provider(
+  (ref) => ref.watch(inspiringImageListProvider).length,
+);
+
+final newInspiringImageProvider = FutureProvider<InspiringImage>(
   (ref) async {
     debugPrint("Requesting image generation to API.");
     final response =
@@ -21,9 +30,10 @@ final inspiringImageUrlProvider = FutureProvider<String>(
 
     final imageUrl = response.body;
 
-    ref.read(inspiringImageListProvider.notifier).addImage(imageUrl);
+    final newImage =
+        ref.read(inspiringImageListProvider.notifier).addNewImage(imageUrl);
 
-    return imageUrl;
+    return newImage;
   },
 );
 
@@ -45,11 +55,6 @@ final inspiringImageProvider = FutureProvider.family<Uint8List, String>(
   },
 );
 
-final inspiringImageListProvider =
-    StateNotifierProvider<InspiringImageList, List<InspiringImage>>(
-  (ref) => InspiringImageList([]),
-);
-
 final inspiringImageListIndexProvider = StateProvider<int>(
   (ref) => 0,
 );
@@ -68,43 +73,15 @@ final inspiringImageListElementProvider = Provider.family<InspiringImage?, int>(
   },
 );
 
-final inspiringFavouriteListIndexProvider = StateProvider<int>(
-  (ref) => 0,
-);
+final currentInspiringImageProvider = Provider<InspiringImage?>(
+  (ref) {
+    final currentIndex = ref.watch(inspiringImageListIndexProvider);
+    final currentList = ref.watch(inspiringImageListProvider);
 
-final inspiringFavouriteListElementProvider =
-    Provider.family<InspiringImage?, int>(
-  (ref, index) {
-    debugPrint("Trying to access image #$index of the favourite list.");
-    if (index >=
-        ref
-            .watch(inspiringImageListProvider)
-            .where(
-              (element) => element.favourite == true,
-            )
-            .length) {
-      debugPrint("Index out of range.");
+    if (currentIndex >= currentList.length) {
       return null;
     } else {
-      final image = ref
-          .watch(inspiringImageListProvider)
-          .where(
-            (element) => element.favourite == true,
-          )
-          .elementAt(index);
-      debugPrint("Image $image found.");
-      return image;
+      return currentList[currentIndex];
     }
-  },
-);
-
-final currentInspiringImageFavouriteStatusProvider = Provider<bool>(
-  (ref) {
-    final listIndex = ref.watch(inspiringImageListIndexProvider);
-    final favourite = ref
-            .watch(inspiringFavouriteListElementProvider(listIndex))
-            ?.favourite ??
-        false;
-    return favourite;
   },
 );

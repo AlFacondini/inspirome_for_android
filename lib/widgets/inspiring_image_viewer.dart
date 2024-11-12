@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inspirome_for_android/models/inspiring_image.dart';
 import 'package:inspirome_for_android/providers.dart';
 
 class InspiringImageViewer extends ConsumerWidget {
@@ -9,25 +10,24 @@ class InspiringImageViewer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this.");
 
-    final listIndex = ref.watch(inspiringImageListIndexProvider);
-    final listLength = ref.watch(inspiringImageListProvider).length;
+    final currentImage = ref.watch(currentInspiringImageProvider);
 
-    if (listIndex >= listLength) {
+    if (currentImage == null) {
       return _buildNewInspiringImage(context, ref);
     } else {
-      final imageUrl =
-          ref.read(inspiringImageListElementProvider(listIndex))!.imageUrl;
-      return _buildExistingInspiringImage(context, ref, imageUrl);
+      return _buildExistingInspiringImage(context, ref, currentImage);
     }
   }
 }
 
 Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
-  ref.invalidate(inspiringImageUrlProvider);
-  final imageUrl = ref.watch(inspiringImageUrlProvider);
-  return imageUrl.when(
-    data: (url) {
-      return _buildExistingInspiringImage(context, ref, url);
+  ref.invalidate(newInspiringImageProvider);
+  final imageObject = ref.read(newInspiringImageProvider);
+  return imageObject.when(
+    data: (_) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     },
     error: (err, _) {
       return const Icon(Icons.error);
@@ -41,8 +41,8 @@ Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
 }
 
 Widget _buildExistingInspiringImage(
-    BuildContext context, WidgetRef ref, String url) {
-  final imageBytes = ref.watch(inspiringImageProvider(url));
+    BuildContext context, WidgetRef ref, InspiringImage imageObject) {
+  final imageBytes = ref.watch(inspiringImageProvider(imageObject.imageUrl));
 
   return imageBytes.when(
     data: (image) {

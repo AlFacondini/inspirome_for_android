@@ -8,13 +8,15 @@ const _uuid = Uuid();
 class InspiringImageList extends StateNotifier<List<InspiringImage>> {
   InspiringImageList(super.state);
 
-  void addImage(String url) {
+  InspiringImage addNewImage(String url) {
     final newInspiringImage =
         InspiringImage(_uuid.v4(), url, null, DateTime.now(), false);
 
     debugPrint("Adding $newInspiringImage");
 
     state = [...state, newInspiringImage];
+
+    return newInspiringImage;
   }
 
   void setFavourite(String guid) {
