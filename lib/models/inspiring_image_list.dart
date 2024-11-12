@@ -8,30 +8,24 @@ const _uuid = Uuid();
 class InspiringImageList extends StateNotifier<List<InspiringImage>> {
   InspiringImageList(super.state);
 
-  String addNewImage(String url) {
-    final newGuid = _uuid.v4();
+  InspiringImage addNewImage(String url) {
     final newInspiringImage =
-        InspiringImage(newGuid, url, null, DateTime.now(), false);
+        InspiringImage(_uuid.v4(), url, null, DateTime.now(), false);
 
     debugPrint("Adding $newInspiringImage to the list.");
 
     state = [...state, newInspiringImage];
 
-    return newGuid;
+    return newInspiringImage;
   }
 
-  InspiringImage? getImageWithGuid(String guid) {
-    debugPrint("Trying to retrieve image object with guid = $guid.");
-    final ret = state
-        .where(
-          (element) => element.guid == guid,
-        )
-        .singleOrNull;
-    if (ret == null) {
-      debugPrint("Failed to retrieve image object with guid = $guid.");
-    } else {
-      debugPrint("Retrieved image object with guid = $guid.");
-    }
-    return ret;
+  void setFavourite(String guid) {
+    state = [
+      for (final inspiringImage in state)
+        if (inspiringImage.guid == guid)
+          inspiringImage.withFavourite(!inspiringImage.favourite)
+        else
+          inspiringImage
+    ];
   }
 }

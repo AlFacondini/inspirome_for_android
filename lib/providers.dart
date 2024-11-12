@@ -11,7 +11,11 @@ final inspiringImageListProvider =
   (ref) => InspiringImageList([]),
 );
 
-final newInspiringImageProvider = FutureProvider<String>(
+final inspiringImageListLengthProvider = Provider(
+  (ref) => ref.watch(inspiringImageListProvider).length,
+);
+
+final newInspiringImageProvider = FutureProvider<InspiringImage>(
   (ref) async {
     debugPrint("Requesting image generation to API.");
     final response =
@@ -26,10 +30,10 @@ final newInspiringImageProvider = FutureProvider<String>(
 
     final imageUrl = response.body;
 
-    final guid =
+    final newImage =
         ref.read(inspiringImageListProvider.notifier).addNewImage(imageUrl);
 
-    return guid;
+    return newImage;
   },
 );
 
@@ -67,6 +71,19 @@ final inspiringImageListElementProvider = Provider.family<InspiringImage?, int>(
       final image = ref.watch(inspiringImageListProvider).elementAt(index);
       debugPrint("Image $image found.");
       return image;
+    }
+  },
+);
+
+final currentInspiringImageProvider = Provider<InspiringImage?>(
+  (ref) {
+    final currentIndex = ref.watch(inspiringImageListIndexProvider);
+    final currentList = ref.watch(inspiringImageListProvider);
+
+    if (currentIndex >= currentList.length) {
+      return null;
+    } else {
+      return currentList[currentIndex];
     }
   },
 );

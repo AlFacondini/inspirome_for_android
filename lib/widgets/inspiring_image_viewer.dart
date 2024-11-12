@@ -10,15 +10,12 @@ class InspiringImageViewer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this.");
 
-    final listIndex = ref.watch(inspiringImageListIndexProvider);
-    final listLength = ref.watch(inspiringImageListProvider).length;
+    final currentImage = ref.watch(currentInspiringImageProvider);
 
-    if (listIndex >= listLength) {
+    if (currentImage == null) {
       return _buildNewInspiringImage(context, ref);
     } else {
-      final imageObject =
-          ref.read(inspiringImageListElementProvider(listIndex))!;
-      return _buildExistingInspiringImage(context, ref, imageObject);
+      return _buildExistingInspiringImage(context, ref, currentImage);
     }
   }
 }
@@ -45,7 +42,7 @@ Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
 
 Widget _buildExistingInspiringImage(
     BuildContext context, WidgetRef ref, InspiringImage imageObject) {
-  final imageBytes = ref.watch(inspiringImageProvider(imageObject));
+  final imageBytes = ref.watch(inspiringImageProvider(imageObject.imageUrl));
 
   return imageBytes.when(
     data: (image) {

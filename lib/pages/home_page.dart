@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspirome_for_android/providers.dart';
+import 'package:inspirome_for_android/widgets/favourite_icons.dart';
 import 'package:inspirome_for_android/widgets/inspiring_image_viewer.dart';
 
 class HomePage extends ConsumerWidget {
@@ -47,15 +48,22 @@ class HomePage extends ConsumerWidget {
           ),
         ),
       ),
-      floatingActionButton: _favouriteFloatingActionButton(),
+      floatingActionButton: _favouriteFloatingActionButton(ref),
     );
   }
 }
 
-FloatingActionButton _favouriteFloatingActionButton() {
+FloatingActionButton? _favouriteFloatingActionButton(WidgetRef ref) {
   return FloatingActionButton(
-    onPressed: () {},
+    onPressed: () {
+      final currentImage = ref.read(currentInspiringImageProvider);
+      if (currentImage != null) {
+        ref
+            .read(inspiringImageListProvider.notifier)
+            .setFavourite(currentImage.guid);
+      }
+    },
     tooltip: 'Favourite',
-    child: const Icon(Icons.favorite_outline),
+    child: const FavouriteIcons(),
   );
 }
