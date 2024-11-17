@@ -11,7 +11,10 @@ class FavouriteIcons extends ConsumerWidget {
     if (currentImage == null) {
       return const Icon(Icons.question_mark);
     } else if (currentImage.favourite) {
-      return const Icon(Icons.favorite);
+      return const Icon(
+        Icons.favorite,
+        color: Colors.redAccent,
+      );
     } else {
       return const Icon(Icons.favorite_border);
     }

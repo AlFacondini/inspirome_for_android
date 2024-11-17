@@ -22,7 +22,7 @@ class InspiringImageViewer extends ConsumerWidget {
 
 Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
   ref.invalidate(newInspiringImageProvider);
-  final imageObject = ref.read(newInspiringImageProvider);
+  final imageObject = ref.watch(newInspiringImageProvider);
   return imageObject.when(
     data: (_) {
       return const Center(

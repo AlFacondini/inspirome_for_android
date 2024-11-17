@@ -7,8 +7,10 @@ import 'package:inspirome_for_android/models/inspiring_image.dart';
 import 'package:inspirome_for_android/models/inspiring_image_list.dart';
 
 final inspiringImageListProvider =
-    StateNotifierProvider<InspiringImageList, List<InspiringImage>>(
-  (ref) => InspiringImageList([]),
+    NotifierProvider<InspiringImageList, List<InspiringImage>>(
+  () {
+    return InspiringImageList();
+  },
 );
 
 final inspiringImageListLengthProvider = Provider(

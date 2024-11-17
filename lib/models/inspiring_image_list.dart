@@ -5,8 +5,11 @@ import 'package:uuid/uuid.dart';
 
 const _uuid = Uuid();
 
-class InspiringImageList extends StateNotifier<List<InspiringImage>> {
-  InspiringImageList(super.state);
+class InspiringImageList extends Notifier<List<InspiringImage>> {
+  @override
+  List<InspiringImage> build() {
+    return [];
+  }
 
   InspiringImage addNewImage(String url) {
     final newInspiringImage =
