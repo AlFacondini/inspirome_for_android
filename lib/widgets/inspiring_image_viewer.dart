@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:inspirome_for_android/models/inspiring_image.dart';
 import 'package:inspirome_for_android/providers.dart';
 
 class InspiringImageViewer extends ConsumerWidget {
@@ -10,12 +9,14 @@ class InspiringImageViewer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this.");
 
-    final currentImage = ref.watch(currentInspiringImageProvider);
+    final currentImageGuid = ref.watch(currentInspiringImageProvider.select(
+      (value) => value?.guid,
+    ));
 
-    if (currentImage == null) {
+    if (currentImageGuid == null) {
       return _buildNewInspiringImage(context, ref);
     } else {
-      return _buildExistingInspiringImage(context, ref, currentImage);
+      return _buildExistingInspiringImage(context, ref, currentImageGuid);
     }
   }
 }
@@ -41,8 +42,8 @@ Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
 }
 
 Widget _buildExistingInspiringImage(
-    BuildContext context, WidgetRef ref, InspiringImage imageObject) {
-  final imageBytes = ref.watch(inspiringImageProvider(imageObject));
+    BuildContext context, WidgetRef ref, String imageGuid) {
+  final imageBytes = ref.watch(inspiringImageBytesProvider(imageGuid));
 
   return imageBytes.when(
     data: (image) {

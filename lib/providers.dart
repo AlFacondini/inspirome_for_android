@@ -13,8 +13,26 @@ final inspiringImageListProvider =
   },
 );
 
-final inspiringImageListLengthProvider = Provider(
-  (ref) => ref.watch(inspiringImageListProvider).length,
+final inspiringImageAtIndexProvider = Provider.family<InspiringImage?, int>(
+  (ref, index) {
+    final list = ref.watch(inspiringImageListProvider);
+    if (index < 0 || index >= list.length) {
+      return null;
+    } else {
+      return list[index];
+    }
+  },
+);
+
+final inspiringImageWithGuidProvider = Provider.family<InspiringImage?, String>(
+  (ref, guid) {
+    return ref
+        .watch(inspiringImageListProvider)
+        .where(
+          (element) => element.guid == guid,
+        )
+        .singleOrNull;
+  },
 );
 
 final newInspiringImageProvider = FutureProvider<InspiringImage>(
@@ -39,9 +57,15 @@ final newInspiringImageProvider = FutureProvider<InspiringImage>(
   },
 );
 
-final inspiringImageProvider = FutureProvider.family<Uint8List, InspiringImage>(
-  (ref, imageObject) async {
-    final url = imageObject.imageUrl;
+final inspiringImageBytesProvider = FutureProvider.family<Uint8List, String>(
+  (ref, guid) async {
+    final url = ref.watch(inspiringImageWithGuidProvider(guid).select(
+      (value) => value?.imageUrl,
+    ));
+
+    if (url == null) {
+      throw Exception("Trying to access image with incorrect guid.");
+    }
 
     debugPrint("Accessing image at $url.");
     final response = await http.get(Uri.parse(url));
@@ -63,29 +87,7 @@ final inspiringImageListIndexProvider = StateProvider<int>(
   (ref) => 0,
 );
 
-final inspiringImageListElementProvider = Provider.family<InspiringImage?, int>(
-  (ref, index) {
-    debugPrint("Trying to access image #$index of the list.");
-    if (index >= ref.watch(inspiringImageListProvider).length) {
-      debugPrint("Index out of range.");
-      return null;
-    } else {
-      final image = ref.watch(inspiringImageListProvider).elementAt(index);
-      debugPrint("Image $image found.");
-      return image;
-    }
-  },
-);
-
-final currentInspiringImageProvider = Provider<InspiringImage?>(
-  (ref) {
-    final currentIndex = ref.watch(inspiringImageListIndexProvider);
-    final currentList = ref.watch(inspiringImageListProvider);
-
-    if (currentIndex >= currentList.length) {
-      return null;
-    } else {
-      return currentList[currentIndex];
-    }
-  },
-);
+final currentInspiringImageProvider = Provider<InspiringImage?>((ref) {
+  final currentIndex = ref.watch(inspiringImageListIndexProvider);
+  return ref.watch(inspiringImageAtIndexProvider(currentIndex));
+});
