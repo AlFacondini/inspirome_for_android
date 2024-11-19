@@ -64,7 +64,7 @@ final inspiringImageBytesProvider = FutureProvider.family<Uint8List, String>(
     ));
 
     if (url == null) {
-      throw Exception("Trying to access image with incorrect guid.");
+      throw Exception("Invalid guid.");
     }
 
     debugPrint("Accessing image at $url.");

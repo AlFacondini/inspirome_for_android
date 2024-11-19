@@ -13,7 +13,7 @@ class InspiringImageList extends Notifier<List<InspiringImage>> {
 
   InspiringImage addNewImage(String url) {
     final newInspiringImage =
-        InspiringImage(_uuid.v4(), url, null, DateTime.now(), false);
+        InspiringImage(_uuid.v4(), url, null, DateTime.now(), false, 0, {});
 
     debugPrint("Adding $newInspiringImage to the list.");
 
