@@ -1,3 +1,9 @@
+# TODO
+
+Scrivere readme. Ricordarsi di:
+API Inspirome 
+serializzazione JSON e persistenza su disco 
+
 # inspirome_for_android
 
 A new Flutter project.

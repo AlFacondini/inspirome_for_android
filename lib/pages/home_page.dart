@@ -4,11 +4,16 @@ import 'package:inspirome_for_android/providers.dart';
 import 'package:inspirome_for_android/widgets/favourite_icons.dart';
 import 'package:inspirome_for_android/widgets/inspiring_image_viewer.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  @override
+  Widget build(BuildContext context) {
     debugPrint("Building $this.");
 
     const endOfListSnackBar = SnackBar(
