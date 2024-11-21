@@ -4,23 +4,11 @@ import 'package:inspirome_for_android/providers.dart';
 import 'package:inspirome_for_android/widgets/favourite_icons.dart';
 import 'package:inspirome_for_android/widgets/inspiring_image_viewer.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends ConsumerState<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-
-    _loadFavourites(ref);
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this.");
 
     const endOfListSnackBar = SnackBar(
@@ -78,14 +66,4 @@ FloatingActionButton? _favouriteFloatingActionButton(WidgetRef ref) {
     tooltip: 'Favourite',
     child: const FavouriteIcons(),
   );
-}
-
-Future<void> _loadFavourites(WidgetRef ref) async {
-  final imagesAdded =
-      await ref.read(inspiringImageListProvider.notifier).addJsonFavouries();
-
-  final imageIndex = ref.read(inspiringImageListIndexProvider);
-
-  ref.read(inspiringImageListIndexProvider.notifier).state =
-      (imageIndex + imagesAdded - 1);
 }
