@@ -13,6 +13,13 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   @override
+  void initState() {
+    super.initState();
+
+    _loadFavourites(ref);
+  }
+
+  @override
   Widget build(BuildContext context) {
     debugPrint("Building $this.");
 
@@ -71,4 +78,14 @@ FloatingActionButton? _favouriteFloatingActionButton(WidgetRef ref) {
     tooltip: 'Favourite',
     child: const FavouriteIcons(),
   );
+}
+
+Future<void> _loadFavourites(WidgetRef ref) async {
+  final imagesAdded =
+      await ref.read(inspiringImageListProvider.notifier).addJsonFavouries();
+
+  final imageIndex = ref.read(inspiringImageListIndexProvider);
+
+  ref.read(inspiringImageListIndexProvider.notifier).state =
+      (imageIndex + imagesAdded - 1);
 }

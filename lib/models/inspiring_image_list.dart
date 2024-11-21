@@ -27,6 +27,28 @@ class InspiringImageList extends Notifier<List<InspiringImage>> {
     return newInspiringImage;
   }
 
+  int addExistingImageList(List<InspiringImage> list) {
+    debugPrint("Adding multiple images to the list.");
+
+    int imagesAdded = 0;
+    final newstate = [...state];
+
+    for (var element in list) {
+      if (newstate
+          .where(
+            (e) => e.guid == element.guid,
+          )
+          .isEmpty) {
+        imagesAdded++;
+        newstate.add(element);
+      }
+    }
+
+    state = newstate;
+
+    return imagesAdded;
+  }
+
   void setFavourite(String guid) {
     state = [
       for (final inspiringImage in state)
@@ -47,6 +69,18 @@ class InspiringImageList extends Notifier<List<InspiringImage>> {
         _removeImageFromJson(image);
       }
     }
+  }
+
+  Future<int> addJsonFavouries() async {
+    final jsonFile = await _getJsonFile();
+
+    if (!await jsonFile.exists()) {
+      await jsonFile.create(recursive: true);
+    }
+
+    final favouritesList = await _readJsonFile(jsonFile);
+
+    return addExistingImageList(favouritesList);
   }
 
   Future<void> _addImageToJson(InspiringImage image) async {
