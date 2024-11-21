@@ -31,8 +31,13 @@ class _SplashScreenPageState extends ConsumerState<SplashScreenPage> {
 
     final imageIndex = ref.read(inspiringImageListIndexProvider);
 
-    ref.read(inspiringImageListIndexProvider.notifier).state =
-        (imageIndex + imagesAdded - 1);
+    int newState = (imageIndex + imagesAdded - 1);
+
+    if (newState < 0) {
+      newState = 0;
+    }
+
+    ref.read(inspiringImageListIndexProvider.notifier).state = newState;
 
     return true;
   }
