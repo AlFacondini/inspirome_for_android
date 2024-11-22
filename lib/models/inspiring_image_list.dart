@@ -71,7 +71,7 @@ class InspiringImageList extends Notifier<List<InspiringImage>> {
     }
   }
 
-  Future<int> addJsonFavouries() async {
+  Future<int> addJsonFavourites() async {
     final jsonFile = await _getJsonFile();
 
     if (!await jsonFile.exists()) {

@@ -27,7 +27,7 @@ class _SplashScreenPageState extends ConsumerState<SplashScreenPage> {
 
   Future<bool> _loadFavourites() async {
     final imagesAdded =
-        await ref.read(inspiringImageListProvider.notifier).addJsonFavouries();
+        await ref.read(inspiringImageListProvider.notifier).addJsonFavourites();
 
     final imageIndex = ref.read(inspiringImageListIndexProvider);
 
@@ -52,7 +52,18 @@ class _SplashScreenPageState extends ConsumerState<SplashScreenPage> {
   }
 
   void _initialize() async {
+    final begin = DateTime.now();
+
     await _loadFavourites();
+
+    final end = DateTime.now();
+    final timeElapsed = end.difference(begin);
+    final timeToWait = const Duration(seconds: 3) - timeElapsed;
+
+    if (!timeToWait.isNegative) {
+      await Future.delayed(timeToWait);
+    }
+
     _changePage();
   }
 }

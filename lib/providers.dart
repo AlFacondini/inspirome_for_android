@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:inspirome_for_android/models/inspiring_image.dart';
 import 'package:inspirome_for_android/models/inspiring_image_list.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as pathprov;
 
 final inspiringImageListProvider =
     NotifierProvider<InspiringImageList, List<InspiringImage>>(
@@ -67,19 +70,38 @@ final inspiringImageBytesProvider = FutureProvider.family<Uint8List, String>(
       throw Exception("Invalid guid.");
     }
 
-    debugPrint("Accessing image at $url.");
-    final response = await http.get(Uri.parse(url));
+    final appTmpDir = await pathprov.getTemporaryDirectory();
+    final splittedUrl = path.split(url);
+    splittedUrl.removeRange(0, splittedUrl.length - 2);
+    final usefulUrl = splittedUrl.join(path.separator);
+    final filePath = path.join(appTmpDir.path, usefulUrl);
+    final imageFile = File(filePath);
 
-    final statusCode = response.statusCode;
-    if (statusCode != 200) {
-      throw Exception("Image HTTP request failed with code $statusCode");
+    debugPrint("Checking cache for file '$filePath'.");
+    if (!await imageFile.exists()) {
+      debugPrint("Accessing image at $url.");
+      final response = await http.get(Uri.parse(url));
+
+      final statusCode = response.statusCode;
+      if (statusCode != 200) {
+        throw Exception("Image HTTP request failed with code $statusCode");
+      } else {
+        debugPrint("Image HTTP request OK.");
+      }
+
+      final image = response.bodyBytes;
+
+      if (!await imageFile.parent.exists()) {
+        await imageFile.parent.create(recursive: true);
+      }
+
+      imageFile.writeAsBytes(image);
+
+      return image;
     } else {
-      debugPrint("Image HTTP request OK.");
+      debugPrint("Accessing image ${imageFile.path}.");
+      return imageFile.readAsBytes();
     }
-
-    final image = response.bodyBytes;
-
-    return image;
   },
 );
 
