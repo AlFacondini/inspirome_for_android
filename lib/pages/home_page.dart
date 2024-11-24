@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspirome_for_android/providers.dart';
 import 'package:inspirome_for_android/widgets/favourite_icons.dart';
@@ -16,6 +17,11 @@ class HomePage extends ConsumerWidget {
       duration: Duration(seconds: 5),
     );
 
+    const urlCopiedSnackBar = SnackBar(
+      content: Text("Copied the url to the clipboard."),
+      duration: Duration(seconds: 5),
+    );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -26,7 +32,7 @@ class HomePage extends ConsumerWidget {
           final imageIndex = ref.read(inspiringImageListIndexProvider);
           // If swiping right to left
           if (details.primaryVelocity! < 0) {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).clearSnackBars();
             ref.read(inspiringImageListIndexProvider.notifier).state =
                 (imageIndex + 1);
           } else {
@@ -38,6 +44,16 @@ class HomePage extends ConsumerWidget {
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(endOfListSnackBar);
               }
+            }
+          }
+        },
+        onLongPress: () async {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          final currentImage = ref.read(currentInspiringImageProvider);
+          if (currentImage != null) {
+            await Clipboard.setData(ClipboardData(text: currentImage.imageUrl));
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(urlCopiedSnackBar);
             }
           }
         },
