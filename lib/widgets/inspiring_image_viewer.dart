@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspirome_for_android/providers.dart';
 
@@ -13,13 +14,28 @@ class InspiringImageViewer extends ConsumerWidget {
       (value) => value?.guid,
     ));
 
-    if (currentImageGuid == null) {
-      return _buildNewInspiringImage(context, ref);
-    } else {
-      return _buildExistingInspiringImage(context, ref, currentImageGuid);
-    }
+    return GestureDetector(
+      onLongPress: () async {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        final currentImage = ref.read(currentInspiringImageProvider);
+        if (currentImage != null) {
+          await Clipboard.setData(ClipboardData(text: currentImage.imageUrl));
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(_urlCopiedSnackBar);
+          }
+        }
+      },
+      child: (currentImageGuid == null)
+          ? _buildNewInspiringImage(context, ref)
+          : _buildExistingInspiringImage(context, ref, currentImageGuid),
+    );
   }
 }
+
+const _urlCopiedSnackBar = SnackBar(
+  content: Text("Copied the url to the clipboard."),
+  duration: Duration(seconds: 5),
+);
 
 Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
   ref.invalidate(newInspiringImageProvider);
