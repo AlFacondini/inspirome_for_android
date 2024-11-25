@@ -4,17 +4,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspirome_for_android/providers.dart';
 
 class InspiringImageViewer extends ConsumerWidget {
-  const InspiringImageViewer({super.key});
+  final String? _selectedImageGuid;
+
+  const InspiringImageViewer(this._selectedImageGuid, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     debugPrint("Building $this.");
 
-    final currentImageGuid = ref.watch(currentInspiringImageProvider.select(
-      (value) => value?.guid,
-    ));
-
     return GestureDetector(
+      onTap: () {
+        ref.read(selectedImageGuidProvider.notifier).state = _selectedImageGuid;
+      },
       onLongPress: () async {
         ScaffoldMessenger.of(context).clearSnackBars();
         final currentImage = ref.read(currentInspiringImageProvider);
@@ -25,9 +26,9 @@ class InspiringImageViewer extends ConsumerWidget {
           }
         }
       },
-      child: (currentImageGuid == null)
+      child: (_selectedImageGuid == null)
           ? _buildNewInspiringImage(context, ref)
-          : _buildExistingInspiringImage(context, ref, currentImageGuid),
+          : _buildExistingInspiringImage(context, ref, _selectedImageGuid),
     );
   }
 }

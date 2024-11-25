@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inspirome_for_android/pages/inspiring_image_editor_page.dart';
 import 'package:inspirome_for_android/providers.dart';
 import 'package:inspirome_for_android/widgets/favourite_icons.dart';
-import 'package:inspirome_for_android/widgets/inspiring_image_viewer.dart';
+import 'package:inspirome_for_android/widgets/home_page_viewer.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -14,6 +15,19 @@ class HomePage extends ConsumerWidget {
     const endOfListSnackBar = SnackBar(
       content: Text("Reached the bottom of the list."),
       duration: Duration(seconds: 5),
+    );
+
+    ref.listenManual(
+      selectedImageGuidProvider,
+      (prev, next) {
+        if (next != null) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => InspiringImageEditorPage(next),
+            ),
+          );
+        }
+      },
     );
 
     return Scaffold(
@@ -45,7 +59,7 @@ class HomePage extends ConsumerWidget {
         child: const Padding(
           padding: EdgeInsets.all(8),
           child: Center(
-            child: InspiringImageViewer(),
+            child: HomePageViewer(),
           ),
         ),
       ),

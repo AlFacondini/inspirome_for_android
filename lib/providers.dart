@@ -113,3 +113,7 @@ final currentInspiringImageProvider = Provider<InspiringImage?>((ref) {
   final currentIndex = ref.watch(inspiringImageListIndexProvider);
   return ref.watch(inspiringImageAtIndexProvider(currentIndex));
 });
+
+final selectedImageGuidProvider = StateProvider<String?>(
+  (ref) => null,
+);

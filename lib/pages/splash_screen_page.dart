@@ -43,8 +43,7 @@ class _SplashScreenPageState extends ConsumerState<SplashScreenPage> {
   }
 
   void _changePage() {
-    Navigator.pushReplacement(
-      context,
+    Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const HomePage(),
       ),
