@@ -43,6 +43,7 @@ Widget _buildNewInspiringImage(BuildContext context, WidgetRef ref) {
   return imageObject.when(
     data: (_) {
       return const Center(
+        // The widget rebuilds anyway, this prevents flickering
         child: CircularProgressIndicator(),
       );
     },

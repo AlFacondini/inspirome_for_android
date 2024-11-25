@@ -36,6 +36,7 @@ class HomePage extends ConsumerWidget {
                 ref.read(inspiringImageListIndexProvider.notifier).state =
                     (imageIndex - 1);
               } else {
+                ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(endOfListSnackBar);
               }
             }
