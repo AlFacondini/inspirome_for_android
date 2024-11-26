@@ -23,7 +23,7 @@ class HomePage extends ConsumerWidget {
         if (next != null) {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => InspiringImageEditorPage(next),
+              builder: (context) => const InspiringImageEditorPage(),
             ),
           );
         }

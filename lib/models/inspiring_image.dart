@@ -15,7 +15,7 @@ class InspiringImage {
   final DateTime dateGenerated;
   @JsonKey(required: true)
   final bool favourite;
-  @JsonKey(defaultValue: 0)
+  @JsonKey(defaultValue: 1)
   final int score;
   @JsonKey()
   final Set<String> tags;
@@ -29,7 +29,7 @@ class InspiringImage {
     String urlEnd = Uri.parse(imageUrl).pathSegments.last;
     DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
     String formattedDate = dateFormat.format(dateGenerated);
-    return "$guidBeginning - $urlEnd - $formattedDate - $favourite";
+    return "$guidBeginning - $urlEnd - $formattedDate - $favourite - $score";
   }
 
   InspiringImage withFavourite(bool newFavourite) {
@@ -38,8 +38,17 @@ class InspiringImage {
   }
 
   InspiringImage withScore(int newScore) {
+    int adjustedScore;
+    if (newScore > 5) {
+      adjustedScore = 5;
+    } else if (newScore < 1) {
+      adjustedScore = 1;
+    } else {
+      adjustedScore = newScore;
+    }
+
     return InspiringImage(
-        guid, imageUrl, comment, dateGenerated, favourite, newScore, tags);
+        guid, imageUrl, comment, dateGenerated, favourite, adjustedScore, tags);
   }
 
   InspiringImage withTags(Set<String> newTags) {

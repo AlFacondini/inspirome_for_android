@@ -17,7 +17,7 @@ InspiringImage _$InspiringImageFromJson(Map<String, dynamic> json) {
     json['comment'] as String? ?? '',
     DateTime.parse(json['dateGenerated'] as String),
     json['favourite'] as bool,
-    (json['score'] as num?)?.toInt() ?? 0,
+    (json['score'] as num?)?.toInt() ?? 1,
     (json['tags'] as List<dynamic>).map((e) => e as String).toSet(),
   );
 }

@@ -5,8 +5,10 @@ import 'package:inspirome_for_android/providers.dart';
 
 class InspiringImageViewer extends ConsumerWidget {
   final String? _selectedImageGuid;
+  final bool _clickable;
 
-  const InspiringImageViewer(this._selectedImageGuid, {super.key});
+  const InspiringImageViewer(this._selectedImageGuid, this._clickable,
+      {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -14,7 +16,10 @@ class InspiringImageViewer extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () {
-        ref.read(selectedImageGuidProvider.notifier).state = _selectedImageGuid;
+        if (_clickable) {
+          ref.read(selectedImageGuidProvider.notifier).state =
+              _selectedImageGuid;
+        }
       },
       onLongPress: () async {
         ScaffoldMessenger.of(context).clearSnackBars();

@@ -18,7 +18,7 @@ class InspiringImageList extends Notifier<List<InspiringImage>> {
 
   InspiringImage addNewImage(String url) {
     final newInspiringImage =
-        InspiringImage(_uuid.v4(), url, null, DateTime.now(), false, 0, {});
+        InspiringImage(_uuid.v4(), url, null, DateTime.now(), false, 1, {});
 
     debugPrint("Adding $newInspiringImage to the list.");
 
@@ -71,6 +71,24 @@ class InspiringImageList extends Notifier<List<InspiringImage>> {
     }
   }
 
+  void setScore(String guid, int newScore) {
+    state = [
+      for (final inspiringImage in state)
+        if (inspiringImage.guid == guid)
+          inspiringImage.withScore(newScore)
+        else
+          inspiringImage
+    ];
+    final image = state
+        .where(
+          (element) => element.guid == guid,
+        )
+        .singleOrNull;
+    if (image != null) {
+      _updateImageInJson(image);
+    }
+  }
+
   Future<int> addJsonFavourites() async {
     final jsonFile = await _getJsonFile();
 
@@ -105,6 +123,25 @@ class InspiringImageList extends Notifier<List<InspiringImage>> {
     favouritesList.add(image);
 
     await _writeJsonFile(jsonFile, favouritesList);
+  }
+
+  Future<void> _updateImageInJson(InspiringImage image) async {
+    debugPrint("Updating $image in the Json file.");
+
+    final jsonFile = await _getJsonFile();
+
+    if (!await jsonFile.exists()) {
+      await jsonFile.create(recursive: true);
+    }
+
+    final favouritesList = await _readJsonFile(jsonFile);
+
+    final newList = [
+      for (final inspiringImage in favouritesList)
+        if (inspiringImage.guid == image.guid) image else inspiringImage
+    ];
+
+    await _writeJsonFile(jsonFile, newList);
   }
 
   Future<void> _removeImageFromJson(InspiringImage image) async {

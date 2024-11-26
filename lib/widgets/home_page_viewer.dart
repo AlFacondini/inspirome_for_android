@@ -16,6 +16,6 @@ class HomePageViewer extends ConsumerWidget {
       ),
     );
 
-    return InspiringImageViewer(currentImageGuid);
+    return InspiringImageViewer(currentImageGuid, true);
   }
 }
