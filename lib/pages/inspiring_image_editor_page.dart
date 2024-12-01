@@ -4,6 +4,7 @@ import 'package:inspirome_for_android/providers.dart';
 import 'package:inspirome_for_android/widgets/favourite_button.dart';
 import 'package:inspirome_for_android/widgets/inspiring_image_viewer.dart';
 import 'package:inspirome_for_android/widgets/rating_segmented_button.dart';
+import 'package:inspirome_for_android/widgets/tags_textfield.dart';
 
 class InspiringImageEditorPage extends ConsumerWidget {
   const InspiringImageEditorPage({super.key});
@@ -50,7 +51,17 @@ class InspiringImageEditorPage extends ConsumerWidget {
                       child: RatingSegmentedButton(selectedImageGuid),
                     ),
                   ],
-                )
+                ),
+                SizedBox.fromSize(
+                  size: const Size(double.infinity, 3),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TagsTextfield(selectedImageGuid),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

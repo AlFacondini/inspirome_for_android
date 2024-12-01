@@ -45,6 +45,7 @@ dependencies:
   json_annotation: ^4.9.0
   path: ^1.9.0
   path_provider: ^2.1.5
+  textfield_tags: ^3.0.1
 
 dev_dependencies:
   flutter_test:
