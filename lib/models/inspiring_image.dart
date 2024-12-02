@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'inspiring_image.g.dart';
 
 @JsonSerializable()
-class InspiringImage {
+class InspiringImage implements Comparable<InspiringImage> {
   @JsonKey(required: true)
   final String guid;
   @JsonKey(required: true)
@@ -60,4 +60,14 @@ class InspiringImage {
       _$InspiringImageFromJson(json);
 
   Map<String, dynamic> toJson() => _$InspiringImageToJson(this);
+
+  @override
+  int compareTo(InspiringImage other) {
+    final comparisonResult = score.compareTo(other.score);
+    if (comparisonResult != 0) {
+      return comparisonResult;
+    } else {
+      return guid.compareTo(other.guid);
+    }
+  }
 }

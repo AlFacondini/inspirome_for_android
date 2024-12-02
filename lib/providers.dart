@@ -117,3 +117,36 @@ final currentInspiringImageProvider = Provider<InspiringImage?>((ref) {
 final selectedImageGuidProvider = StateProvider<String?>(
   (ref) => null,
 );
+
+final orderedFavouriteImageListProvider = Provider(
+  (ref) {
+    final ret = ref
+        .watch(inspiringImageListProvider)
+        .where(
+          (element) => element.favourite,
+        )
+        .toList();
+    ret.sort();
+    return ret;
+  },
+);
+
+final specificOrderedFavouriteImageListProvider =
+    Provider.family<InspiringImage?, int>(
+  (ref, arg) {
+    return ref.watch(orderedFavouriteImageListProvider)[arg];
+  },
+);
+
+final specificReversedFavouriteImageListProvider =
+    Provider.family<InspiringImage?, int>(
+  (ref, arg) {
+    return ref.watch(orderedFavouriteImageListProvider).reversed.toList()[arg];
+  },
+);
+
+final favouriteImageListCountProvider = Provider(
+  (ref) {
+    return ref.watch(orderedFavouriteImageListProvider).length;
+  },
+);

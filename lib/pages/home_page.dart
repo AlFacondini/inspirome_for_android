@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inspirome_for_android/pages/inspiring_image_editor_page.dart';
 import 'package:inspirome_for_android/providers.dart';
 import 'package:inspirome_for_android/widgets/favourite_icons.dart';
+import 'package:inspirome_for_android/widgets/home_page_drawer.dart';
 import 'package:inspirome_for_android/widgets/home_page_viewer.dart';
 
 class HomePage extends ConsumerWidget {
@@ -63,6 +64,7 @@ class HomePage extends ConsumerWidget {
           ),
         ),
       ),
+      drawer: const HomePagDrawer(),
       floatingActionButton: _favouriteFloatingActionButton(ref),
     );
   }
