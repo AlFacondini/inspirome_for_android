@@ -64,7 +64,7 @@ class HomePage extends ConsumerWidget {
           ),
         ),
       ),
-      drawer: const HomePagDrawer(),
+      drawer: const HomePageDrawer(),
       floatingActionButton: _favouriteFloatingActionButton(ref),
     );
   }

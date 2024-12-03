@@ -34,8 +34,9 @@ class _FavouritesPageState extends ConsumerState<FavouritesPage> {
               onPressed: () {
                 reverseOrder();
               },
-              icon:
-                  ascending ? const Icon(Icons.north) : const Icon(Icons.south))
+              icon: ascending
+                  ? const Icon(Icons.north)
+                  : const Icon(Icons.south)),
         ],
       ),
       body: Padding(

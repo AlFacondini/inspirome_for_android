@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inspirome_for_android/pages/favourites_page.dart';
+import 'package:inspirome_for_android/pages/search_by_tag_page.dart';
 
-class HomePagDrawer extends StatelessWidget {
-  const HomePagDrawer({super.key});
+class HomePageDrawer extends StatelessWidget {
+  const HomePageDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,17 @@ class HomePagDrawer extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const FavouritesPage(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: const Text("Search by Tag"),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SearchByTagPage(),
                       ),
                     );
                   },

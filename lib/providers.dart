@@ -9,6 +9,8 @@ import 'package:inspirome_for_android/models/inspiring_image_list.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as pathprov;
 
+typedef SpecificImageWithTagParameters = ({String tag, int index});
+
 final inspiringImageListProvider =
     NotifierProvider<InspiringImageList, List<InspiringImage>>(
   () {
@@ -148,5 +150,44 @@ final specificReversedFavouriteImageListProvider =
 final favouriteImageListCountProvider = Provider(
   (ref) {
     return ref.watch(orderedFavouriteImageListProvider).length;
+  },
+);
+
+final tagsListProvider = Provider(
+  (ref) {
+    final ret = <String>{};
+    for (var element in ref.watch(inspiringImageListProvider)) {
+      for (var str in element.tags) {
+        ret.add(str);
+      }
+    }
+    return ret.toList();
+  },
+);
+
+final specificImageWithTagProvider =
+    Provider.family<InspiringImage?, SpecificImageWithTagParameters>(
+  (ref, arg) {
+    final ret = ref.watch(inspiringImageListProvider).where(
+      (element) {
+        return element.tags.contains(arg.tag);
+      },
+    ).toList()[arg.index];
+
+    return ret;
+  },
+);
+
+final imagesWithTagCountProvider = Provider.family<int, String?>(
+  (ref, arg) {
+    return ref
+        .watch(inspiringImageListProvider)
+        .where(
+          (element) {
+            return element.tags.contains(arg);
+          },
+        )
+        .toList()
+        .length;
   },
 );
