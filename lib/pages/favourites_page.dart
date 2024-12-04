@@ -11,7 +11,7 @@ class FavouritesPage extends ConsumerStatefulWidget {
 }
 
 class _FavouritesPageState extends ConsumerState<FavouritesPage> {
-  bool ascending = false;
+  bool ascending = true;
 
   void reverseOrder() {
     setState(() {

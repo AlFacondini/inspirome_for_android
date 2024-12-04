@@ -20,8 +20,40 @@ class _SplashScreenPageState extends ConsumerState<SplashScreenPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
+    return Scaffold(
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Theme.of(context).colorScheme.inversePrimary,
+              Colors.white,
+            ],
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Inspirome",
+              style: TextStyle(
+                  fontSize: 36,
+                  fontStyle: FontStyle.italic,
+                  color: Theme.of(context).colorScheme.onSurface),
+            ),
+            Text(
+              "for Android",
+              style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.onSurface),
+            )
+          ],
+        ),
+      ),
     );
   }
 
