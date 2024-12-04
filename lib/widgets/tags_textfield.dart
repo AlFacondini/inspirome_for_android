@@ -76,15 +76,15 @@ class _TagsTextfieldState extends ConsumerState<TagsTextfield> {
             isDense: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
-              borderSide: const BorderSide(
-                color: Color.fromARGB(255, 197, 205, 122),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.onSurface,
                 width: 1.0,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
-              borderSide: const BorderSide(
-                color: Color.fromARGB(255, 197, 205, 122),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.onSurface,
                 width: 1.0,
               ),
             ),

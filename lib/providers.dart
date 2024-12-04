@@ -172,9 +172,11 @@ final specificImageWithTagProvider =
       (element) {
         return element.tags.contains(arg.tag);
       },
-    ).toList()[arg.index];
+    ).toList();
 
-    return ret;
+    ret.sort();
+
+    return ret.reversed.toList()[arg.index];
   },
 );
 

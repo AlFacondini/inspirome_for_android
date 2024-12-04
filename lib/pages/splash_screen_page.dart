@@ -40,15 +40,15 @@ class _SplashScreenPageState extends ConsumerState<SplashScreenPage> {
             Text(
               "Inspirome",
               style: TextStyle(
-                  fontSize: 36,
-                  fontStyle: FontStyle.italic,
+                  fontSize: 56,
+                  fontFamily: "StyleScript",
                   color: Theme.of(context).colorScheme.onSurface),
             ),
             Text(
               "for Android",
               style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 48,
+                  fontFamily: "Orbitron",
                   color: Theme.of(context).colorScheme.onSurface),
             )
           ],
