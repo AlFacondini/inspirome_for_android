@@ -13,8 +13,11 @@ class HomePageDrawer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const DrawerHeader(
-            child: Text("Navigation"),
+          const SizedBox(
+            height: 128,
+            child: DrawerHeader(
+              child: Text("Navigation"),
+            ),
           ),
           Expanded(
             child: ListView(
