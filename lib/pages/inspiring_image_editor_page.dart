@@ -29,16 +29,79 @@ class InspiringImageEditorPage extends ConsumerWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(8),
+          child: OrientationBuilder(
+            builder: (context, orientation) {
+              return orientation == Orientation.portrait
+                  ? buildPortrait(context, ref, selectedImageGuid)
+                  : buildLandscape(context, ref, selectedImageGuid);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildPortrait(
+      BuildContext context, WidgetRef ref, String? selectedImageGuid) {
+    debugPrint("Building as portrait.");
+
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          InspiringImageViewer(selectedImageGuid, false),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: FavouriteButton(selectedImageGuid),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: RatingSegmentedButton(selectedImageGuid),
+              ),
+            ],
+          ),
+          SizedBox.fromSize(
+            size: const Size(double.infinity, 3),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: TagsTextfield(selectedImageGuid),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildLandscape(
+      BuildContext context, WidgetRef ref, String? selectedImageGuid) {
+    debugPrint("Building as landscape.");
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        InspiringImageViewer(selectedImageGuid, false),
+        SizedBox.fromSize(
+          size: const Size(8, double.infinity),
+        ),
+        Expanded(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                InspiringImageViewer(selectedImageGuid, false),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
                   children: [
                     Expanded(
                       child: FavouriteButton(selectedImageGuid),
@@ -52,9 +115,6 @@ class InspiringImageEditorPage extends ConsumerWidget {
                     ),
                   ],
                 ),
-                SizedBox.fromSize(
-                  size: const Size(double.infinity, 3),
-                ),
                 Row(
                   children: [
                     Expanded(
@@ -65,8 +125,8 @@ class InspiringImageEditorPage extends ConsumerWidget {
               ],
             ),
           ),
-        ),
-      ),
+        )
+      ],
     );
   }
 }
