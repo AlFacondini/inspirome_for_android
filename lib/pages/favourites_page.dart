@@ -78,7 +78,10 @@ class _FavouritesPageState extends ConsumerState<FavouritesPage> {
         padding: const EdgeInsets.all(8),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, mainAxisSpacing: 8, crossAxisSpacing: 8),
+            crossAxisCount: 2,
+            mainAxisSpacing: 8,
+            crossAxisSpacing: 8,
+          ),
           itemCount: imageListCount,
           itemBuilder: (context, index) {
             return InspiringImageViewer(
@@ -135,9 +138,11 @@ class _FavouritesPageState extends ConsumerState<FavouritesPage> {
             ),
             Align(
               alignment: Alignment.topLeft,
-              child: Builder(builder: (context) {
-                return _backFloatingActionButton(context)!;
-              }),
+              child: Builder(
+                builder: (context) {
+                  return _backFloatingActionButton(context)!;
+                },
+              ),
             ),
           ],
         ),
