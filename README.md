@@ -46,9 +46,27 @@ In tutte le pagine rimane la funzione di copiatura del link all'immagine tramite
 
 L'interfaccia grafica dell'applicazione si adatta alle visualizzazioni in orizzontale e verticale.
 
-| | | |
-| --- | --- | --- |
-| <img src="/images/homepage-portrait.png" width = 180px> | <img src="/images/homepage-landscape.png" width = 240px> | La versione verticale dell'homepage fa uso dell'*appbar* e di un *floating action button*. Nella versione orizzontale si è preferito togliere l'*appbar* per guadagnare spazio verticale e si è spostato il pulsante hamburger in un *floating action button*. La pagina contiene un *gesture detector* per la navigazione, mentre l'immagine è un widget composito chiamato *inspiring image viewer* che contiene il widget di visualizzazione dell'inspirome e il *gesture detector* per il tap e il long press sull'immagine. |
-| <img src="/images/editing-portrait.png" width = 180px> | <img src="/images/editing-landscape.png" width = 240px> | La pagina di editing contiene l'*appbar*, l'*inspiring image viewer*, un *elevated button*, un *segmented button* e un *tags textfield* dall'omonimo pacchetto. In verticale tutti gli elementi sono racchiusi in un *single child scroll view* mentre in orizzontale l'immagine non lo è. Il *single child scroll view* permette all'interfaccia di adattarsi quando compare la tastiera a seguito dell'interazione con il *tags textfield*. |
-| <img src="/images/favourites-portrait.png" width = 180px> | <img src="/images/favourites-landscape.png" width = 240px> | La pagina dei preferiti contiene, nella parte principale, una *gridview* per mostrare e rendere scrollabili le *inspiring image viewer*. Nella versione verticale viene utilizzata l'appbar per il tasto di uscita dalla pagina e di inversione dell'ordine delle immagini, mentre nella versione orizzontale l'appbar è eliminata per motivi di spazio e i bottoni spostati in due *floating action button*. La *gridview* presenta due colonne in verticale e una sola riga in orizzontale. | 
-| <img src="/images/tags-portrait.png" width = 180px> | <img src="/images/tags-landscape.png" width = 240px> | Nella pagina della ricerca per tag ancora una volta l'*appbar* viene eliminata nella modalità orizzontale e il suo bottone spostato in un *floating action button*. Il selezionamento della tag avviene tramite *dropdown menu* in verticale e *custom scroll view* contenente *elevated button* in orizzontale. Entrambi cambiano lo stato interno della pagina modificando le immagini mostrate dalla *gridview*, che altrimenti si comporta come nella pagina dei preferiti. | 
+| | | 
+| --- | --- | 
+| <img src="/images/homepage-portrait.png"> | <img src="/images/homepage-landscape.png"> |
+
+La versione verticale dell'homepage fa uso dell'*appbar* e di un *floating action button*. Nella versione orizzontale si è preferito togliere l'*appbar* per guadagnare spazio verticale e si è spostato il pulsante hamburger in un *floating action button*. La pagina contiene un *gesture detector* per la navigazione, mentre l'immagine è un widget composito chiamato *inspiring image viewer* che contiene il widget di visualizzazione dell'inspirome e il *gesture detector* per il tap e il long press sull'immagine.
+
+| | | 
+| --- | --- | 
+| <img src="/images/editing-portrait.png"> | <img src="/images/editing-landscape.png"> | 
+
+La pagina di editing contiene l'*appbar*, l'*inspiring image viewer*, un *elevated button*, un *segmented button* e un *tags textfield* dall'omonimo pacchetto. In verticale tutti gli elementi sono racchiusi in un *single child scroll view* mentre in orizzontale l'immagine non lo è. Il *single child scroll view* permette all'interfaccia di adattarsi quando compare la tastiera a seguito dell'interazione con il *tags textfield*. 
+
+| | | 
+| --- | --- | 
+| <img src="/images/favourites-portrait.png"> | <img src="/images/favourites-landscape.png"> | 
+
+La pagina dei preferiti contiene, nella parte principale, una *gridview* per mostrare e rendere scrollabili le *inspiring image viewer*. Nella versione verticale viene utilizzata l'appbar per il tasto di uscita dalla pagina e di inversione dell'ordine delle immagini, mentre nella versione orizzontale l'appbar è eliminata per motivi di spazio e i bottoni spostati in due *floating action button*. La *gridview* presenta due colonne in verticale e una sola riga in orizzontale.  
+
+| | | 
+| --- | --- | 
+| <img src="/images/tags-portrait.png"> | <img src="/images/tags-landscape.png"> |
+
+Nella pagina della ricerca per tag ancora una volta l'*appbar* viene eliminata nella modalità orizzontale e il suo bottone spostato in un *floating action button*. Il selezionamento della tag avviene tramite *dropdown menu* in verticale e *custom scroll view* contenente *elevated button* in orizzontale. Entrambi cambiano lo stato interno della pagina modificando le immagini mostrate dalla *gridview*, che altrimenti si comporta come nella pagina dei preferiti. 
+
