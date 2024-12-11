@@ -8,6 +8,7 @@ Alberto Facondini - 329370
 * [Casi d'uso](#casi-duso)
 * [Esperienza utente](#esperienza-utente)
 * [Tecnologia](#tecnologia)
+* [Licenza](#licenza)
 
 ## Introduzione
 
@@ -68,3 +69,29 @@ L'applicazione fa largo uso di *Riverpod* per la gestione dello stato.
 Gli inspirome e relative informazioni vengono modellizzate come l'oggetto *inspiring_image*, che utilizza i pacchetti *uuid* per la creazione di guid e *intl* per la formattazione della data di creazione dell'immagine. Questi oggetti sono serializzabili e deserializzabili in e dal JSON tramite i pacchetti *json_annotation* e *json_serializable*. Gli oggetti JSON sono quindi salvati sul filesystem usando i pacchetti *path* e *path_provider*. Il filesystem viene anche usato per la cache delle immagini: la prima volta che una di queste si rende necessaria, l'applicazione la scarica usando il pacchetto *http*, le volte successive viene caricata dalla cache. L'applicazione fa uso inoltre del pacchetto *textfield_tags* nella pagina di editing per la creazione del textfield speciale che comprende la logica per il sistema di tag utilizzato. 
 
 L'API di InspiroBot è molto semplice: una richiesta GET all'endpoint ```/api?generate=true``` restituisce l'URL dell'immagine generata.
+
+## Licenza
+```
+Copyright (c) 2024 Alberto Facondini
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+```
