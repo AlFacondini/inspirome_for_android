@@ -28,7 +28,7 @@ Dalla schermata di modifica è possibile togliere e aggiungere l'inspirome tra i
 
 Dalla home page si può accedere al drawer di navigazione tramite il pulsante hamburger in alto a sinistra. Dal drawer si può tornare alla home page o muoversi verso la pagina dei preferiti o verso quella della ricerca per tag.
 
-Nella pagina dei preferiti vengono visualizzati gli inspirome preferiti in ordine di voto. È possibile passare dall'ordine ascendente al discendente e vice versa tramite il bottone con la freccia, localizzato nella appbar in modalità verticale e in basso a destra in un bottone galleggiante in modalità orizzontale.
+Nella pagina dei preferiti vengono visualizzati gli inspirome preferiti in ordine di voto. È possibile passare dall'ordine ascendente al discendente e viceversa tramite il bottone con la freccia, localizzato nella appbar in modalità verticale e in basso a destra in un bottone galleggiante in modalità orizzontale.
 
 Nella pagina di ricerca per tag è possibile visualizzare tutte le immagini preferite che hanno una certa tag. La tag viene scelta tramite menu a tendina in modalità verticale o tramite una lista di pulsanti in modalità orizzontale. 
 
