@@ -1,13 +1,3 @@
-# TODO
-
-Ricordarsi di:
-
-API Inspirome
-
-serializzazione JSON 
-
-persistenza su disco 
-
 # inspirome_for_android
 
 Alberto Facondini - 329370
@@ -17,6 +7,7 @@ Alberto Facondini - 329370
 * [Introduzione](#introduzione)
 * [Casi d'uso](#casi-duso)
 * [Esperienza utente](#esperienza-utente)
+* [Tecnologia](#tecnologia)
 
 ## Introduzione
 
@@ -70,3 +61,10 @@ La pagina dei preferiti contiene, nella parte principale, una *gridview* per mos
 
 Nella pagina della ricerca per tag ancora una volta l'*appbar* viene eliminata nella modalità orizzontale e il suo bottone spostato in un *floating action button*. Il selezionamento della tag avviene tramite *dropdown menu* in verticale e *custom scroll view* contenente *elevated button* in orizzontale. Entrambi cambiano lo stato interno della pagina modificando le immagini mostrate dalla *gridview*, che altrimenti si comporta come nella pagina dei preferiti. 
 
+## Tecnologia
+
+L'applicazione fa largo uso di *Riverpod* per la gestione dello stato. 
+
+Gli inspirome e relative informazioni vengono modellizzate come l'oggetto *inspiring_image*, che utilizza i pacchetti *uuid* per la creazione di guid e *intl* per la formattazione della data di creazione dell'immagine. Questi oggetti sono serializzabili e deserializzabili in e dal JSON tramite i pacchetti *json_annotation* e *json_serializable*. Gli oggetti JSON sono quindi salvati sul filesystem usando i pacchetti *path* e *path_provider*. Il filesystem viene anche usato per la cache delle immagini: la prima volta che una di queste si rende necessaria, l'applicazione la scarica usando il pacchetto *http*, le volte successive viene caricata dalla cache. L'applicazione fa uso inoltre del pacchetto *textfield_tags* nella pagina di editing per la creazione del textfield speciale che comprende la logica per il sistema di tag utilizzato. 
+
+L'API di InspiroBot è molto semplice: una richiesta GET all'endpoint ```/api?generate=true``` restituisce l'URL dell'immagine generata.
